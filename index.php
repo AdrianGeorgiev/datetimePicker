@@ -50,15 +50,22 @@ var allowTimes = [
 	'11:00',
 	'11:30',
 	'12:00',
-	'12:30',
-	'13:00',
+	'12:30'
 ];
 var onSelectDate = function (newDate, me){
 	var newfDate = newDate.getDate() +"."+ (newDate.getMonth() + 1) + '.' + newDate.getFullYear();
 	if(disableDateHours.map(i => i.date).includes(newfDate)){
 		var disableHours = disableDateHours.filter(i => i.date === newfDate)[0].hours;
-		options.allowTimes = options.allowTimes.filter((x) => !disableHours.includes(x))
+		var allowhours = options.allowTimes.filter((x) => !disableHours.includes(x));
+		if(allowhours.length > 0){
+			options.timepicker = true;
+			options.allowTimes = allowhours;
+		} else {
+			options.timepicker = false
+		}
+
 	} else {
+		options.timepicker = true;
 		options.allowTimes = allowTimes
 	}
 	$('#datetimepicker3').datetimepicker(options);
@@ -73,7 +80,7 @@ var options = {
 	disabledWeekDays: [0,6],
 	// minTime:'9:00',
 	// maxTime:'13:00',
-	// step: 30,
+	step: 30,
 	//weeks: true,
 	timepickerScrollbar: false,
 	dayOfWeekStart: 1,
